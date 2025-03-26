@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Finder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-utensils"></i> MEAL FINDER
+        </div>
+        <nav>
+            <div class="menu-icon" id="openSidebar">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul id="sidebar" class="hidden">
+                <div class="close-icon" id="closeSidebar"><i class="fa-solid fa-xmark"></i></div>
+                <ul id="categoryList"></ul>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="search-wrapper">
+            <div class="search-container">
+                <input type="text" placeholder="Search recipes here ...">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+        <h1>What are your favorite cuisines?</h1>
+        <p>PERSONALIZE YOUR EXPERIENCE</p>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
