@@ -42,7 +42,7 @@ function fetchCategories() {
 // Function to display categories dynamically
 function displayCategories(categories) {
     const categoriesContainer = document.getElementById("categories");
-    categoriesContainer.innerHTML = ""; // Clear previous content
+    categoriesContainer.innerHTML = ""; 
 
     categories.forEach(category => {
         const categoryCard = document.createElement("div");
