@@ -54,4 +54,47 @@ function displayCategories(categories) {
         categoriesContainer.appendChild(categoryCard);
     });
 }
+//search bar functionality
+
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector(".search-container input");
+    const searchButton = document.querySelector(".search-container button");
+    const categoriesContainer = document.getElementById("categories-section");
+    
+    searchButton.addEventListener("click", async () => {
+        const foodName = searchInput.value.trim();
+        if (foodName === "") return;
+
+        try {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${foodName}`);
+            const data = await response.json();
+            displayMeals(data.meals);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    });
+
+    function displayMeals(meals) {
+        if (!meals) {
+            categoriesContainer.innerHTML = "<h2>No meals found</h2>";
+            return;
+        }
+        
+        let mealHtml = '<h2>MEALS</h2><div class="categories-grid">';
+        meals.forEach(meal => {
+            mealHtml += `
+                <div class="category-card">
+                    <h4>${meal.strCategory || "Unknown"}</h4>
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                    <p><strong>${meal.strArea || ""}</strong></p>
+                    <p>${meal.strMeal}</p>
+                </div>
+            `;
+        });
+        mealHtml += '</div>';
+        
+        categoriesContainer.innerHTML = mealHtml;
+    }
+});
+
 
