@@ -136,6 +136,7 @@ header {
 #categories-section {
     padding: 20px;
     margin: 0 auto;
+    background: rgb(229, 227, 227);
 }
 #categories-section h2::after {
     content: "";
@@ -151,6 +152,7 @@ header {
     font-weight: bold;
     color:black;
     position:relative;
+    margin-top: 10px;
 }
 .categories-grid {
     display: grid;
@@ -166,6 +168,7 @@ header {
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
 }
@@ -189,5 +192,35 @@ header {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     padding:10px;
+    border-radius: 5px;
 }
-
+.category-card p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.category-card:hover {
+    transform: scale(1.05);
+}
+#category-description{
+    border:3px solid #ff6600;
+    margin:10px;
+    padding:10px;
+}
+#category-description h2{
+    color:#ff6600;
+}
+.meals-heading {
+    padding: 10px ;  
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.meals-heading::after{
+    content: "";
+    display: block;
+    width: 80px; 
+    height: 3px;
+    background-color: #ff6600; 
+    margin-top: 5px;
+}
