@@ -41,6 +41,9 @@ header {
     overflow-y: auto;
     z-index: 2;
 }
+#categoryList li:hover {
+    color: red;
+}
 
 .close-icon {
     text-align: right;
@@ -49,7 +52,6 @@ header {
     padding: 10px;
     color: red; /* Close icon color */
 }
-
 #categoryList {
     list-style: none;
     padding: 0;
