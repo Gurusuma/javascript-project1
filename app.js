@@ -1,14 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const mealFinderHeading = document.getElementById("mealFinderHeading");
+    const header = document.querySelector(".header");
     const openSidebar = document.getElementById("openSidebar");
     const closeSidebar = document.getElementById("closeSidebar");
     const sidebar = document.getElementById("sidebar");
     const categoryList = document.getElementById("categoryList");
     const categoriesContainer = document.getElementById("categories");
     const categoriesSection = document.getElementById("categories-section");
-    const descriptionContainer = document.getElementById("category-description"); // Description section
+    const descriptionContainer = document.getElementById("category-description");
     const searchInput = document.querySelector(".search-container input");
     const searchButton = document.querySelector(".search-container button");
-    const searchResultsContainer = document.getElementById("search-results"); // Search results section
+    const searchResultsContainer = document.getElementById("search-results"); 
 
     let categoryDescriptions = {}; // Store category descriptions dynamically
 
@@ -50,24 +52,25 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
             .then(response => response.json())
             .then(data => {
-                let description = categoryDescriptions[category] || "No description available.";
-
-                // Remove categories and show only selected category meals
+                let description = categoryDescriptions[category] || "";
+    
                 categoriesSection.style.display = "none";
-
-                // Display category description
-                descriptionContainer.innerHTML = `
-                    <div class="category-description">
-                        <h2>${category}</h2>
-                        <p>${description}</p>
-                    </div>
-                `;
-
+    
+                // Show description only if available
+                if (description.trim() !== "") {
+                    descriptionContainer.innerHTML = `
+                        <div class="category-description">
+                            <h2>${category}</h2>
+                            <p>${description}</p>
+                        </div>
+                    `;
+                    descriptionContainer.style.display = "block";
+                } else {
+                    descriptionContainer.style.display = "none";
+                }
+    
                 // Display meals
-                let mealHtml = `
-                    <h2 class="meals-heading">MEALS</h2>
-                    <div class="categories-grid">
-                `;
+                let mealHtml = `<h2 class="meals-heading">MEALS</h2><div class="categories-grid">`;
                 data.meals.forEach(meal => {
                     mealHtml += `
                         <div class="category-card">
@@ -77,11 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                 });
                 mealHtml += '</div>';
-
-                searchResultsContainer.innerHTML = mealHtml; // Display results
+    
+                searchResultsContainer.innerHTML = mealHtml;
             })
             .catch(error => console.error("Error fetching meals:", error));
     }
+    
+
 
     // Search functionality
     searchButton.addEventListener("click", async () => {
@@ -99,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function displayMeals(meals) {
         descriptionContainer.innerHTML = "";
+        descriptionContainer.style.display = "none"; 
         if (!meals) {
             searchResultsContainer.innerHTML = "<h2>No meals found</h2>";
             return;
@@ -124,5 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function showHomePage() {
+    categoriesSection.style.display = "block"; 
+    searchResultsContainer.innerHTML = ""; 
+    descriptionContainer.innerHTML = ""; 
+}
 
+// Click event for heading
+mealFinderHeading.addEventListener("click", showHomePage);
+header.addEventListener("click", showHomePage);
   

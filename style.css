@@ -15,7 +15,7 @@ header {
     color: white;
 }
 
-.logo {
+.meal-finder-heading {
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -28,7 +28,9 @@ header {
 .hidden {
     display: none;
 }
-
+#search-results .category-card {
+    margin: 15px;
+}
 #sidebar {
     position: fixed;
     top: -18px;
@@ -164,13 +166,14 @@ header {
 .category-card {
     background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px  rgba(0, 0, 0, 0.2);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s;
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+    margin: 15px;
 }
 .category-card h4 {
     background-color: #ff6600;  
@@ -203,6 +206,7 @@ header {
     transform: scale(1.05);
 }
 #category-description{
+    display:none;
     border:3px solid #ff6600;
     margin:10px;
     padding:10px;
