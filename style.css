@@ -125,6 +125,10 @@ header {
     position: relative;
     left: 55px; /* Adjusted to align better */
 }
+.search-wrapper button:hover{
+    background-color: white;
+    color:#ff6600;
+}
 .hero h1{
     font-size: 33px;
     margin-top: 5px;
@@ -139,6 +143,7 @@ header {
     padding: 20px;
     margin: 0 auto;
     background: rgb(229, 227, 227);
+    display:block;
 }
 #categories-section h2::after {
     content: "";

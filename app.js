@@ -11,30 +11,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector(".search-container input");
     const searchButton = document.querySelector(".search-container button");
     const searchResultsContainer = document.getElementById("search-results"); 
+    const mealDetailsContainer = document.getElementById("meal-details");
 
-    let categoryDescriptions = {}; // Store category descriptions dynamically
+    let categoryDescriptions = {}; 
 
-    // Open sidebar
     openSidebar.addEventListener("click", () => sidebar.classList.remove("hidden"));
-
-    // Close sidebar
     closeSidebar.addEventListener("click", () => sidebar.classList.add("hidden"));
 
-    // Fetch and display categories
     fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
         .then(response => response.json())
         .then(data => {
             data.categories.forEach(category => {
-                categoryDescriptions[category.strCategory] = category.strCategoryDescription; // Store descriptions
-
-                // Sidebar List
+                categoryDescriptions[category.strCategory] = category.strCategoryDescription;
+                
                 const li = document.createElement("li");
                 li.textContent = category.strCategory;
-                li.classList.add("sidebar-item"); // Styling
+                li.classList.add("sidebar-item");
                 li.addEventListener("click", () => loadCategory(category.strCategory));
                 categoryList.appendChild(li);
 
-                // Main Categories Section
                 const categoryCard = document.createElement("div");
                 categoryCard.classList.add("category-card");
                 categoryCard.innerHTML = `
@@ -47,16 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => console.error("Error fetching categories:", error));
 
-    // Function to load meals based on category
     function loadCategory(category) {
         fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
             .then(response => response.json())
             .then(data => {
                 let description = categoryDescriptions[category] || "";
-    
                 categoriesSection.style.display = "none";
-    
-                // Show description only if available
                 if (description.trim() !== "") {
                     descriptionContainer.innerHTML = `
                         <div class="category-description">
@@ -68,31 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     descriptionContainer.style.display = "none";
                 }
-    
-                // Display meals
+
                 let mealHtml = `<h2 class="meals-heading">MEALS</h2><div class="categories-grid">`;
                 data.meals.forEach(meal => {
                     mealHtml += `
-                        <div class="category-card">
+                        <div class="category-card" onclick="loadMealDetails(${meal.idMeal})">
                             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
                             <p>${meal.strMeal}</p>
                         </div>
                     `;
                 });
                 mealHtml += '</div>';
-    
+
                 searchResultsContainer.innerHTML = mealHtml;
+                searchResultsContainer.style.display = "block"; // Ensure search results are visible
+                mealDetailsContainer.style.display = "none"; // Hide meal details when a new category is loaded
             })
             .catch(error => console.error("Error fetching meals:", error));
     }
-    
 
-
-    // Search functionality
     searchButton.addEventListener("click", async () => {
         const foodName = searchInput.value.trim();
         if (foodName === "") return;
-
+        
         try {
             const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${foodName}`);
             const data = await response.json();
@@ -110,16 +99,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        let mealHtml = `
-            <h2 class="meals-heading">MEALS</h2>
-            <div class="categories-grid">
-        `;
+        let mealHtml = `<h2 class="meals-heading">MEALS</h2><div class="categories-grid">`;
         meals.forEach(meal => {
             mealHtml += `
-                <div class="category-card">
-                    <h4>${meal.strCategory || "Unknown"}</h4>
+                <div class="category-card" onclick="loadMealDetails(${meal.idMeal})">
                     <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-                    <p><strong>${meal.strArea || ""}</strong></p>
                     <p>${meal.strMeal}</p>
                 </div>
             `;
@@ -127,16 +111,66 @@ document.addEventListener("DOMContentLoaded", () => {
         mealHtml += '</div>';
 
         searchResultsContainer.innerHTML = mealHtml;
+        searchResultsContainer.style.display = "block"; // Show search results
+        mealDetailsContainer.style.display = "none"; // Hide meal details when searching again
     }
+
+    window.loadMealDetails = function(mealId) {
+        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
+            .then(response => response.json())
+            .then(data => {
+                const meal = data.meals[0];
+                let ingredientsList = "";
+                for (let i = 1; i <= 20; i++) {
+                    if (meal[`strIngredient${i}`]) {
+                        ingredientsList += `<li>${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}</li>`;
+                    }
+                }
+
+                // Hide search results and categories when showing meal details
+                searchResultsContainer.style.display = "none";
+                categoriesSection.style.display = "none";
+                descriptionContainer.style.display = "none";
+
+                mealDetailsContainer.innerHTML = `
+                    <div class="meal-details">
+                        <h2>${meal.strMeal}</h2>
+                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                        <p><strong>Category:</strong> ${meal.strCategory}</p>
+                        <p><strong>Area:</strong> ${meal.strArea}</p>
+                        <h3>Ingredients:</h3>
+                        <ul>${ingredientsList}</ul>
+                        <h3>Instructions:</h3>
+                        <p>${meal.strInstructions}</p>
+                    </div>
+                `;
+                mealDetailsContainer.style.display = "block"; // Show meal details
+            })
+            .catch(error => console.error("Error fetching meal details:", error));
+    };
+
+    // Hide meal details when performing a new search
+    searchButton.addEventListener("click", () => {
+        mealDetailsContainer.style.display = "none"; 
+        searchResultsContainer.style.display = "block"; 
+        categoriesSection.style.display = "block"; 
+    });
+
+    // Hide meal details when selecting a new category
+    categoryList.addEventListener("click", () => {
+        mealDetailsContainer.style.display = "none"; 
+        searchResultsContainer.style.display = "block"; 
+        categoriesSection.style.display = "block"; 
+    });
 });
 
-function showHomePage() {
-    categoriesSection.style.display = "block"; 
-    searchResultsContainer.innerHTML = ""; 
-    descriptionContainer.innerHTML = ""; 
-}
 
-// Click event for heading
-mealFinderHeading.addEventListener("click", showHomePage);
-header.addEventListener("click", showHomePage);
-  
+
+
+
+
+
+
+
+
+
