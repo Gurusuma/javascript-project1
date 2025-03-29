@@ -359,6 +359,22 @@ header {
 .meal-info ul {
     counter-reset: item;
 }
+.instructions-list {
+    padding-left: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    list-style-type: none;
+}
+
+.instructions-list li {
+    margin-bottom: 10px;
+}
+.instruction-icon {
+    background-color: green;
+    color:white;
+    width: 20px;px;
+    height:10px
+}
 
 
 

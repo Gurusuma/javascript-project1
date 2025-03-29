@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 mealHtml += '</div>';
 
                 searchResultsContainer.innerHTML = mealHtml;
-                searchResultsContainer.style.display = "block"; // Ensure search results are visible
-                mealDetailsContainer.style.display = "none"; // Hide meal details when a new category is loaded
+                searchResultsContainer.style.display = "block"; 
+                mealDetailsContainer.style.display = "none"; 
             })
             .catch(error => console.error("Error fetching meals:", error));
     }
@@ -109,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
         mealHtml += '</div>';
-
         searchResultsContainer.innerHTML = mealHtml;
         searchResultsContainer.style.display = "block"; // Show search results
         mealDetailsContainer.style.display = "none"; // Hide meal details when searching again
@@ -130,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 searchResultsContainer.style.display = "none";
                 categoriesSection.style.display = "none";
                 descriptionContainer.style.display = "none";
+               
 
                 mealDetailsContainer.innerHTML = `
                 <h2 class="meals-heading">MEAL DETAILS</h2>
@@ -154,10 +154,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <!-- Rest of the details remain the same -->
                     <h3>Instructions:</h3>
-                    <p class="ingredients-container">${meal.strInstructions}</p>
+                     <ul class="instructions-list">
+    ${meal.strInstructions
+        .split(". ")
+        .filter(step => step.trim() !== "")
+        .map(step => `<li><span class="instruction-icon">✔</span> ${step.trim()}.</li>`)
+        .join("")}
+</ul>
                 </div>
             `;
             mealDetailsContainer.style.display = "block"; 
+            mealDetailsContainer.after(categoriesSection);
+             categoriesSection.style.display = "block"; 
         })
         .catch(error => console.error("Error fetching meal details:", error));
 };
@@ -176,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+ 
 
 
 
