@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
         searchResultsContainer.style.display = "block"; // Show search results
         mealDetailsContainer.style.display = "none"; // Hide meal details when searching again
     }
-
     window.loadMealDetails = function(mealId) {
         fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
             .then(response => response.json())
@@ -133,22 +132,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 descriptionContainer.style.display = "none";
 
                 mealDetailsContainer.innerHTML = `
-                    <div class="meal-details">
-                        <h2>${meal.strMeal}</h2>
-                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-                        <p><strong>Category:</strong> ${meal.strCategory}</p>
-                        <p><strong>Area:</strong> ${meal.strArea}</p>
-                        <h3>Ingredients:</h3>
-                        <ul>${ingredientsList}</ul>
-                        <h3>Instructions:</h3>
-                        <p>${meal.strInstructions}</p>
+                <h2 class="meals-heading">MEAL DETAILS</h2>
+                <div class="meal-details">
+                   
+                    <!-- Image and Category/Area/Ingredients in side-by-side layout -->
+                    <div class="meal-details-top">
+                   
+                        <div class="meal-image">
+                            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                        </div>
+                        <div class="meal-info">
+                          <h2>${meal.strMeal}</h2>
+                            <p><strong>Category:</strong> ${meal.strCategory}</p>
+                            <p><strong>Source:</strong> ${meal.strSource}</p>
+                            <p><strong>Tags:</strong><span> ${meal.strTags}<span></p>
+                            <div>
+                            <h3>Ingredients:</h3>
+                            <ul>${ingredientsList}</ul>
+                            </div>
+                        </div>
                     </div>
-                `;
-                mealDetailsContainer.style.display = "block"; // Show meal details
-            })
-            .catch(error => console.error("Error fetching meal details:", error));
-    };
-
+                    <!-- Rest of the details remain the same -->
+                    <h3>Instructions:</h3>
+                    <p class="ingredients-container">${meal.strInstructions}</p>
+                </div>
+            `;
+            mealDetailsContainer.style.display = "block"; 
+        })
+        .catch(error => console.error("Error fetching meal details:", error));
+};
     // Hide meal details when performing a new search
     searchButton.addEventListener("click", () => {
         mealDetailsContainer.style.display = "none"; 

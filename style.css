@@ -233,3 +233,135 @@ header {
     background-color: #ff6600; 
     margin-top: 5px;
 }
+
+
+/* Meal Details Container */
+.meal-details {
+    max-width: full;
+    margin: 20px auto;
+    padding: 20px;
+    margin:20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Side-by-side layout */
+.meal-details-top {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Meal Image Section */
+.meal-image {
+    width: 50%;
+    flex-shrink: 0;
+}
+
+.meal-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Meal Info Section (Category, Area, Ingredients) */
+.meal-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 30PX;
+}
+
+.meal-details h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+    color: #ff6600;
+}
+.meal-details h2::after{
+    content: "";
+    display: block;
+    width: 380px; 
+    height: 1px;
+    background-color: #ff6600; 
+    margin-top: 5px;
+}
+.meal-meta {
+    font-size: 1rem;
+    color: #666;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+    .meal-details-top {
+        flex-direction: column;
+        align-items: center;
+    }
+    .meal-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .meal-info ul {
+        text-align: left;
+        justify-content: center;
+    }
+}
+/* Ingredients Section */
+.meal-info ul {
+    background: #f97316;
+    padding: 15px;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 500px;
+}
+.meal-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    text-align:;
+}
+.meal-info li {
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.meal-info li::before {
+    content: counter(item) ".";
+    counter-increment: item;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    background-color:rgb(40, 155, 155);
+}
+.meal-info ul {
+    counter-reset: item;
+}
+
+
+
+
+
+
